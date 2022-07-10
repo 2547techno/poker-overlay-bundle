@@ -141,5 +141,8 @@
   "license": "MIT",
   "dependencies": {
     "carbon-web-components": "^1.21.0"
+  },
+  "devDependencies": {
+    "sass": "^1.53.0"
   }
 }
