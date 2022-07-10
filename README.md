@@ -30,8 +30,23 @@ npm install
 ```bash
 npm run buildSass
 ```
-5. Start nodecg
+5. Setup config (create cfg directory if needed)
+```
+cd ../../cfg
+```
+- Create poker.json file
+```json
+{
+    "players": {
+        "player1": "2547techno",
+        "player2": "erobb221",
+        "player3": "mizkif",
+        "player4": "forsen"
+    }
+}
+```
+6. Start nodecg
 ```bash
-cd ../..
+cd ..
 node index.js
 ```
