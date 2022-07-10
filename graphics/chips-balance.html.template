@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="assets/chip.svg" height="200px">
+        $<div id="text">0</div>
+    </div>
+	<script>
+        const playerId = "[[ID]]";
+        const chipsRep = nodecg.Replicant(`${playerId}-chips`);
+
+        chipsRep.on("change", (n, o) => {
+            document.getElementById("text").innerText = n.total - n.bet;
+        })
+	</script>
+</body>
+</html>

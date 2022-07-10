@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    border: black solid 1px;
+
+    &:hover {
+        filter: brightness(0.90);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}
+
+.blinds {
+    margin-top: 15px;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    .blind-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 5px;
+        margin-right: 5px;
+        
+        input {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            height: 30px;
+            text-align: center;
+        }
+
+        button {
+            height: 35px;
+            width: 100%;
+            background-color: rgb(220, 255, 220);
+        }
+    }
+}
+
+.blind-values {
+    font-size: x-large;
+
+    .small-blind-value {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .big-blind-value {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    p {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

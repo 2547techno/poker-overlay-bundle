@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/out/pot.css">
+</head>
+<body>
+    Current Pot:
+    <div id="value">0</div>
+    <div class="distribute">
+        <div class="selectors" id="selectors"></div>
+        <button id="distribute">DISTRIBUTE</button>
+    </div>
+    <div class="override-container">
+        Manual Override
+        <input type="checkbox" name="override" id="override">
+    </div>
+    <div class="override-values">
+        <div class="overrides" id="overrides"></div>
+        <button id="distribute-override">DISTRIBUTE</button>
+    </div>
+        
+	<script>
+		let pot = nodecg.Replicant("pot");
+
+        // let config = {
+        //     "players": {
+        //         "player1": "2547techno",
+        //         "player2": "markzynk",
+        //         "player3": "mizkif",
+        //         "player4": "forsen"
+        //     }
+        // }
+
+        let radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "players"
+        // addPlayers(config.players, radio, document.getElementById("selectors"));
+        addPlayers(nodecg.bundleConfig.players, radio, document.getElementById("selectors"));
+        let input = document.createElement("input");
+        input.type = "number";
+        input.name = "players-override"
+        // addPlayers(config.players, input, document.getElementById("overrides"));
+        addPlayers(nodecg.bundleConfig.players, input, document.getElementById("overrides"));
+        
+        pot.on("change", (newVal, oldVal) => {
+            document.getElementById("value").innerText = newVal;
+        })
+
+        function addPlayers(players, inputElem, targetElem) {
+            for(let key of Object.keys(players)) {
+                let selector = document.createElement("div");
+                selector.className = "selector";
+                selector.id = key;
+
+                let name = document.createElement("p");
+                name.innerText = players[key]
+
+                let elem = inputElem.cloneNode(true)
+                elem.value = elem.type == "number" ? 0 : key;
+                elem.id = key;
+
+                selector.appendChild(name)
+                selector.appendChild(elem)
+                targetElem.appendChild(selector);
+            }
+        }
+        
+        document.getElementById("distribute").addEventListener("click", () => {
+            let elem = document.querySelector('input[name="players"]:checked');
+            if (!elem) return;
+            
+            nodecg.sendMessage("distribute", elem.value)
+            .then(() => {
+                document.querySelectorAll('input[name="players"]').forEach(e => e.checked = false)
+            });
+        })
+        
+        document.getElementById("override").addEventListener("click", () =>{
+            let display = document.getElementById("override").checked ? "flex" : "none"
+            document.querySelector(".override-values").style.display = display;
+        })
+
+        document.getElementById("distribute-override").addEventListener("click", () => {
+            let inputs = document.querySelectorAll(".overrides .selector input");
+            let data = {}
+            inputs.forEach(input => data[input.id] = parseInt(input.value) ?? 0)
+
+            nodecg.sendMessage("distribute-override", data)
+            .then(() => {
+                document.querySelectorAll(".overrides .selector input").forEach(input => input.value = 0)
+            });
+
+        })
+
+	</script>
+</body>
+</html>

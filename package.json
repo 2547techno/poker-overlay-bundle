@@ -1,0 +1,145 @@
+{
+  "name": "poker",
+  "version": "0.0.0",
+  "description": "OTK poker overlay",
+  "type": "commonjs",
+  "homepage": "",
+  "author": {
+    "name": "2547techno"
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "",
+    "nodecg-bundle"
+  ],
+  "scripts": {
+    "watchDashboard": "cd dashboard && nodemon -e html.template -C --exec \"./newPlayer.sh player1 player2 player3 player4\"",
+    "watchGraphics": "cd graphics && nodemon -e html.template -C --exec \"./newPlayer.sh player1 player2 player3 player4\"",
+    "sass": "sass dashboard/styles/src:dashboard/styles/out --watch",
+    "buildSass": "sass dashboard/styles/src:dashboard/styles/out"
+  },
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "pot",
+        "title": "Pot",
+        "width": 3,
+        "file": "pot.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "blinds",
+        "title": "Blinds",
+        "width": 3,
+        "file": "blinds.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "player1",
+        "title": "2547techno (player1)",
+        "width": 3,
+        "file": "player1.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "player2",
+        "title": "erobb221 (player2)",
+        "width": 3,
+        "file": "player2.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "player3",
+        "title": "mizkif (player3)",
+        "width": 3,
+        "file": "player3.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "player4",
+        "title": "forsen (player4)",
+        "width": 3,
+        "file": "player4.html",
+        "headerColor": "#525F78"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "player1-hand.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player1-chips-bet.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player1-chips-balance.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player2-hand.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player2-chips-bet.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player2-chips-balance.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player3-hand.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player3-chips-bet.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player3-chips-balance.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player4-hand.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player4-chips-bet.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "player4-chips-balance.html",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "pot.html",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "license": "MIT",
+  "dependencies": {
+    "carbon-web-components": "^1.21.0"
+  }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="styles/out/blinds.css">
+</head>
+<body>
+    <p>Set Blinds:</p>
+    <div class="blinds">
+        <div class="blind-container">
+            <p>Small:</p>
+            <input type="number" id="small-blind-input" value="0">
+            <button id="set-small-blind">SET</button>
+        </div>
+        <div class="blind-container">
+            <p>Big:</p>
+            <input type="number" id="big-blind-input" value="0">
+            <button id="set-big-blind">SET</button>
+        </div>
+    </div>
+    <div class="blind-values">
+        <div class="small-blind-value">
+            <img src="assets/chip.svg" width="60px">
+            <span>$</span><p class="value"></p>
+            <p>SMALL</p>
+        </div>
+        <div class="big-blind-value">
+            <img src="assets/chip.svg" width="60px">
+            <span>$</span><p class="value"></p>
+            <p>BIG</p>
+        </div>
+    </div>
+	<script>
+        const smallBlindRep = nodecg.Replicant("small-blind");
+        const bigBlindRep = nodecg.Replicant("big-blind");
+
+        smallBlindRep.on("change", (n, o) => {
+            document.querySelector(".small-blind-value .value").innerText = n;
+        })
+        bigBlindRep.on("change", (n, o) => {
+            document.querySelector(".big-blind-value .value").innerText = n;
+        })
+
+        document.getElementById("set-small-blind").addEventListener("click", () => {
+            smallBlindRep.value = parseInt(document.getElementById("small-blind-input").value);
+        })
+        document.getElementById("set-big-blind").addEventListener("click", () => {
+            bigBlindRep.value = parseInt(document.getElementById("big-blind-input").value);
+        })
+	</script>
+</body>
+</html>

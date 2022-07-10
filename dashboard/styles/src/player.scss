@@ -1,0 +1,164 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
+    border: black solid 1px;
+
+    &:hover {
+        filter: brightness(0.90);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}
+
+select {
+    cursor: pointer;
+}
+
+.container {
+    // border: red solid 1px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .card-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        
+        .cards {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+            .card {
+                width: 100%;
+                height: 30px;
+                margin-left: 10px;
+                margin-right: 10px;
+                font-size: large;
+
+                &.red {
+                    color: #ee0000;
+                }
+
+                &.black {
+                    color: black
+                }
+                
+                option {
+                    &.red {
+                        color: #ee0000;
+                    }
+        
+                    &.black {
+                        color: black
+                    }
+                }
+            }
+        }
+
+        #set-cards {
+            background-color: rgb(220, 255, 220);
+        }
+        
+        #clear-cards {
+            background-color: rgb(255, 220, 220);
+        }
+
+        button {
+            width: 100%;
+            height: 35px;
+            margin-top: 10px;
+        }
+    }
+
+    .bet-container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .bet-buttons {
+
+            button {
+                background-color: rgb(209, 234, 255);
+            }
+
+            .blinds {
+                margin-bottom:10px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                button {
+                    width: 150px;
+                    height: 45px;   
+                }
+
+            }
+
+            .static button {
+                height: 30px;
+                width: 80px;
+            }
+        }
+
+        #bet-input {
+            margin-top:10px;
+            height: 25px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        #set-bet {
+            margin-top:10px;
+            height: 35px;
+            width: 100%;
+            background-color: rgb(220, 255, 220);
+        }
+    }
+
+    .values-container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .card-values {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .chip-values {
+            font-size: x-large;
+
+            .balance-value {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .bet-value {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            p {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+

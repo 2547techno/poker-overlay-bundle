@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="styles/out/player.css">
+</head>
+<body>
+	<div class="container">
+		<p>Cards:</p>
+		<div class="card-container">
+			<div class="cards">
+				<select name="card1" id="card1" class="card">
+				</select>
+				<select name="card2" id="card2" class="card">
+				</select>
+			</div>
+			<button id="set-cards">SET</button>
+			<button id="clear-cards">CLEAR</button>
+		</div>
+
+		<div class="bet-container">
+			<p>Bet:</p>
+			<div class="bet-buttons">
+				<div class="blinds">
+					<button id="small-blind">
+						Small blind <br>
+						(<span class="value">+$0</span>)
+					</button>
+					<button id="big-blind">
+						Big blind <br>
+						(<span class="value">+$0</span>)
+					</button>
+				</div>
+				<div class="static">
+					<button id="minus10">-10</button>
+					<button id="plus10">+10</button>
+					<button id="plus100">+100</button>
+					<button id="plus500">+500</button>
+				</div>
+			</div>
+			<input type="number" id="bet-input" value="0">
+			<button id="set-bet">SET</button>
+		</div>
+
+		<div class="values-container">
+			<p>Live Values:</p>
+			<div class="card-values">
+				<img id="card1-img" src="assets/cards/blank.svg" width="40%">
+				<img id="card2-img" src="assets/cards/blank.svg" width="40%">
+			</div>
+			<div class="chip-values">
+				<div class="balance-value">
+					<img src="assets/chip.svg" width="60px">
+					<span>$</span><p class="value"></p>
+					<p>BALANCE</p>
+				</div>
+				<div class="bet-value">
+					<img src="assets/chip.svg" width="60px">
+					<span>$</span><p class="value"></p>
+					<p>BET</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		const playerId = "[[ID]]";
+		const suits = ["♠", "♥", "♣", "♦"];
+		const suitMap = {
+			"♠": "spades",
+			"♥": "hearts",
+			"♣": "clubs",
+			"♦": "diamonds"
+		}
+		const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+
+		const chipsRep = nodecg.Replicant(`${playerId}-chips`);
+		let chips = {};
+		const handRep = nodecg.Replicant(`${playerId}-hand`);
+		const smallBlindRep = nodecg.Replicant("small-blind");
+		let smallBlind = 0;
+		const bigBlindRep = nodecg.Replicant("big-blind");
+		let bigBlind = 0;
+		
+		for(let value of values) {
+			for (let suit of suits) {
+				let option = document.createElement("option");
+				option.value = `${value}${suit}`;
+				option.innerText = `${value}${suit}`;
+				option.style.border = "black solid 1px"
+
+				if (suit == "♥" || suit == "♦") {
+					option.classList.add("red")
+				} else {
+					option.classList.add("black")
+				}
+
+				document.getElementById("card1").appendChild(option);
+				document.getElementById("card2").appendChild(option.cloneNode(true));
+			}
+		}
+
+		function cardPath(suit, value) {
+			return `assets/cards/${suit}/${value}.svg`
+		}
+
+		chipsRep.on("change", (n ,o) => {
+			chips = n;
+			console.log(chips);
+			document.querySelector(".bet-value .value").innerText = n.bet;
+			document.querySelector(".balance-value .value").innerText = n.total - n.bet;
+		})
+
+		handRep.on("change", (n, o) => {
+			console.log(n)
+			let suit;
+			let value;
+			if (!n.card1 || !n.card2) {
+				document.getElementById("card1-img").src = "assets/cards/blank.svg"
+				document.getElementById("card2-img").src = "assets/cards/blank.svg"
+				console.log("null card")
+				return;
+			}
+
+			value = n.card1.split("");
+			suit = value.pop();
+			value = value.join("");
+			
+			document.getElementById("card1-img").src = cardPath(suitMap[suit], value);
+
+			value = n.card2.split("");
+			suit = value.pop();
+			value = value.join("");
+
+			document.getElementById("card2-img").src = cardPath(suitMap[suit], value);
+		})
+
+		smallBlindRep.on("change", (n, o) => {
+			smallBlind = n;
+			let str = "";
+			if (n >= 0) {
+				str = `+$${n}`
+			} else {
+				str = `-$${Math.abs(n)}`
+			}
+			document.querySelector("#small-blind .value").innerText = str;
+		})
+
+		bigBlindRep.on("change", (n, o) => {
+			bigBlind = n;
+			let str = "";
+			if (n >= 0) {
+				str = `+$${n}`
+			} else {
+				str = `-$${Math.abs(n)}`
+			}
+			document.querySelector("#big-blind .value").innerText = str;
+		})
+
+		nodecg.listenFor("clearInput", (value) => {
+			console.log("clear");
+			document.getElementById("bet-input").value = 0;
+		})
+
+		document.getElementById("card1").addEventListener("change", () => {
+			const value = document.getElementById("card1").value;
+			if (value.includes("♥") | value.includes("♦")) {
+				document.getElementById("card1").classList.add("red");
+			} else {
+				document.getElementById("card1").classList.remove("red");
+			}
+		})
+		document.getElementById("card2").addEventListener("change", () => {
+			const value = document.getElementById("card2").value;
+			if (value.includes("♥") | value.includes("♦")) {
+				document.getElementById("card2").classList.add("red");
+			} else {
+				document.getElementById("card2").classList.remove("red");
+			}
+		})
+		document.getElementById("minus10").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value -= 10;
+			document.getElementById("bet-input").value = value;
+		})
+		document.getElementById("plus10").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value += 10;
+			document.getElementById("bet-input").value = value;
+		})
+		document.getElementById("plus100").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value += 100;
+			document.getElementById("bet-input").value = value;
+		})
+		document.getElementById("plus500").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value += 500;
+			document.getElementById("bet-input").value = value;
+		})
+		document.getElementById("set-bet").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			chipsRep.value = {
+				total: chips.total,
+				bet: value
+			}
+		})
+		document.getElementById("set-cards").addEventListener("click", () => {
+			handRep.value = {
+				card1: document.getElementById("card1").value,
+				card2: document.getElementById("card2").value
+			}
+		})
+		document.getElementById("clear-cards").addEventListener("click", () => {
+			handRep.value = {
+				card1: null,
+				card2: null
+			}
+		})
+		document.getElementById("small-blind").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value += smallBlind;
+			document.getElementById("bet-input").value = value;
+		})
+		document.getElementById("big-blind").addEventListener("click", () => {
+			let value = parseInt(document.getElementById("bet-input").value)
+			value += bigBlind;
+			document.getElementById("bet-input").value = value;
+		})
+
+	</script>
+</body>
+</html>

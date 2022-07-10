@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<style>
+		.cards img {
+			margin-left: 20px;
+			margin-right: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="cards">
+		<img id="card1-img" src="">
+		<img id="card2-img" src="">
+	</div>
+	<script>
+		const playerId = "[[ID]]";
+		const handRep = nodecg.Replicant(`${playerId}-hand`);
+		const suitMap = {
+			"♠": "spades",
+			"♥": "hearts",
+			"♣": "clubs",
+			"♦": "diamonds"
+		}
+
+		function cardPath(suit, value) {
+			return `assets/cards/${suit}/${value}.svg`
+		}
+
+		handRep.on("change", (n, o) => {
+			let suit;
+			let value;
+			if (!n.card1 || !n.card2) {
+				document.getElementById("card1-img").src = ""
+				document.getElementById("card2-img").src = ""
+				console.log("null card")
+				return;
+			}
+
+			value = n.card1.split("");
+			suit = value.pop();
+			value = value.join("");
+			
+			document.getElementById("card1-img").src = cardPath(suitMap[suit], value);
+
+			value = n.card2.split("");
+			suit = value.pop();
+			value = value.join("");
+
+			document.getElementById("card2-img").src = cardPath(suitMap[suit], value);
+		})
+
+
+	</script>
+</body>
+</html>

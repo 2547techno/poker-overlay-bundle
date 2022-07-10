@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
+    border: black solid 1px;
+
+    &:hover {
+        filter: brightness(0.90);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}
+#value {
+    margin-top: 5px;
+}
+
+.distribute, .override-values {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.selectors, .overrides {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-right: 25px;
+    
+    .selector {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: 5px 0 5px 0;
+        
+        input {
+            margin-left: 10px;
+        }
+        
+        p {
+            margin: 0;
+        }
+    }
+}
+
+.override-values {
+    display:none
+}
+
+button {
+    width: 100px;
+    height: 35px;
+    background-color: rgb(220, 255, 220);
+}
